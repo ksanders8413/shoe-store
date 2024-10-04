@@ -1,8 +1,7 @@
 
+import pkg from 'cloudinary'; // Default import for CommonJS module
+const { v2: cloudinary } = pkg;
 
-
-
-import { v2 as cloudinary } from "cloudinary";
 import multer from 'multer';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import dotenv from 'dotenv';
