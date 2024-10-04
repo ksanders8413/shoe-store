@@ -24,5 +24,5 @@ cloudinary.config({
 //   },
 // });
 
-export const cloudinaryUpload = multer({ storage });
+// export const cloudinaryUpload = multer({ storage });
 export { cloudinary };
