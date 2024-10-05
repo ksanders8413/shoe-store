@@ -174,14 +174,19 @@ function App() {
 
   useEffect(() => {
     const checkUserAuth = async () => {
-      await checkAuth();
-      setIsAuthChecked(true);
+      await checkAuth(); // Perform the authentication check
+  
+      // Only fetch cart items if user is authenticated
       if (user) {
-        getCartItems(); // Fetch cart items after auth check if the user is logged in
+        getCartItems();
       }
+  
+      setIsAuthChecked(true); // Set this after auth check
     };
+  
     checkUserAuth();
-  }, [checkAuth, getCartItems, user]);
+  }, []); // Empty dependency array to avoid re-running this on every render
+  
 
   // Show loading spinner while checking authentication
   if (checkingAuth || !isAuthChecked) return <LoadingSpinner />;
