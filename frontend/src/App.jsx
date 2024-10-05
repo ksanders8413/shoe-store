@@ -136,7 +136,7 @@ import SignupPage from "./pages/SignupPage.jsx";
 import Navbar from "./Components/Navbar.jsx";
 import { Toaster } from "react-hot-toast";
 import { useUserStore } from "./stores/useUserStore";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import LoadingSpinner from "./Components/LoadingSpinner.jsx";
 import AdminPage from "./pages/AdminPage.jsx";
 import CategoryPage from "./pages/CategoryPage.jsx";
