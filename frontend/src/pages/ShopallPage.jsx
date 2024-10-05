@@ -66,3 +66,4 @@ const ShopAllPage = () => {
 };
 
 export default ShopAllPage;
+

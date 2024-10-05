@@ -16,7 +16,6 @@ const CartPage = () => {
   // Scroll to top when the cart items are loaded
   useEffect(() => {
     if (cart.length > 0) {
-      window.scrollTo(0, 0);
     }
   }, [cart]);
 
