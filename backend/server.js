@@ -1,8 +1,3 @@
-
-
-
-
-
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
@@ -30,15 +25,26 @@ const PORT = process.env.PORT || 5000;
 const __dirname = path.resolve();
 
 const corsOptions = {
-  origin: 'http://localhost:5173', // Your frontend URL
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type'],
+  origin: "http://localhost:5173", // Your frontend URL
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type"],
   credentials: true,
 };
 
 app.use(cors(corsOptions));
 app.use(express.json({ limit: "10mb" }));
 app.use(cookieParser());
+
+// Middleware to force HTTPS
+app.use((req, res, next) => {
+  if (
+    process.env.NODE_ENV === "production" &&
+    req.headers["x-forwarded-proto"] !== "https"
+  ) {
+    return res.redirect(`https://${req.headers.host}${req.url}`);
+  }
+  next();
+});
 
 // API Routes
 app.use("/api/auth", authRoutes);
@@ -55,25 +61,27 @@ app.use("/api/product-cost", productCostRoutes);
 
 // Image upload route
 // Image upload route with Cloudinary URLs
-app.post('/api/products/upload-images', cloudinaryUpload.array('images', 5), (req, res) => {
-  if (req.files && req.files.length > 0) {
-    const imageUrls = req.files.map(file => file.path); // Use the Cloudinary URL instead of `file.filename`
-    return res.status(200).json({ images: imageUrls });
+app.post(
+  "/api/products/upload-images",
+  cloudinaryUpload.array("images", 5),
+  (req, res) => {
+    if (req.files && req.files.length > 0) {
+      const imageUrls = req.files.map((file) => file.path); // Use the Cloudinary URL instead of `file.filename`
+      return res.status(200).json({ images: imageUrls });
+    }
+    return res.status(400).json({ error: "At least one image is required." });
   }
-  return res.status(400).json({ error: 'At least one image is required.' });
-});
+);
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "/frontend/dist"))); 
+  app.use(express.static(path.join(__dirname, "/frontend/dist")));
 
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
   });
 }
 
-
 app.listen(PORT, () => {
   console.log("Server is running on http://localhost:" + PORT);
   connectDb();
 });
-
