@@ -76,13 +76,20 @@ let totalAmount = 0;
       }
     }
 
+    const clientUrl =
+  process.env.NODE_ENV === 'development'
+    ? process.env.CLIENT_URL_DEV  // Use development URL
+    : process.env.CLIENT_URL_PROD; // Use production URL
+
+
+
     // Create the Stripe checkout session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: lineItems,
       mode: "payment",
-      success_url: `${process.env.CLIENT_URL}/purchase-success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.CLIENT_URL}/purchase-cancel`,
+      success_url: `${clientUrl}/purchase-success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${clientUrl}/purchase-cancel`,
       discounts: coupon
         ? [
             {
