@@ -3,7 +3,7 @@ import axios from 'axios';
 import ProductCard from '../Components/ProductCard'; // Adjust the import based on your structure
 import LoadingSpinner from '../Components/LoadingSpinner';
 import { StarryBackground } from '../../motionComponents/ShopByCategory';
-import { useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 
 
 const ShopAllPage = () => {
@@ -37,19 +37,19 @@ const ShopAllPage = () => {
   if (loading) return <LoadingSpinner />;
   if (error) return <p>{error}</p>;
 
-  const ScrollToTop = () => {
-    const { pathname } = useLocation();
+  // const ScrollToTop = () => {
+  //   const { pathname } = useLocation();
   
-    useEffect(() => {
-      window.scrollTo(0, 0); // Scroll to top of the page
-    }, [pathname]);
+  //   useEffect(() => {
+  //     window.scrollTo(0, 0); // Scroll to top of the page
+  //   }, [pathname]);
   
-    return null;
-  };
+  //   return null;
+  // };
   
   return (
     <div className="relative min-h-screen -mb-10 -mt-8" style={{ background: 'linear-gradient(to bottom, #001f3f, #003366, #004080, #1a5276, #2471a3)' }}>
-      <ScrollToTop />
+      {/* <ScrollToTop /> */}
       <StarryBackground />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <h1 className="text-center text-4xl font-bold text-gray-200 mb-8">
