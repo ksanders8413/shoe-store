@@ -14,6 +14,40 @@ const PurchaseSuccessPage = () => {
   const [orderDetails, setOrderDetails] = useState(null); // To hold order details
   const orderProcessedRef = useRef(false);
 
+  // const handleCheckoutSuccess = async (sessionId) => {
+  //   try {
+  //     if (orderProcessedRef.current) return;
+  //     orderProcessedRef.current = true;
+
+  //     // Call your backend to retrieve the order details
+  //     const checkoutResponse = await axios.post(
+  //       "http://localhost:5000/api/payments/checkout-success",
+  //       { sessionId }
+  //     );
+
+  //     console.log("Checkout response:", checkoutResponse.data);
+
+  //     const orderResponse = checkoutResponse.data.order; // Access the order directly from checkoutResponse
+  //     console.log("Order response:", orderResponse); // Log the order response
+
+  //     if (orderResponse) {
+  //       // Clear cart after successful order processing
+  //       clearCart();
+  //     } else {
+  //       console.error("Error in the order response");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error processing checkout: ", error);
+  //     setError(
+  //       `An error occurred while processing your order: ${
+  //         error.response?.data?.message || error.message
+  //       }`
+  //     );
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
   const handleCheckoutSuccess = async (sessionId) => {
     try {
       if (orderProcessedRef.current) return;
@@ -21,7 +55,7 @@ const PurchaseSuccessPage = () => {
 
       // Call your backend to retrieve the order details
       const checkoutResponse = await axios.post(
-        // "http://localhost:5000/api/payments/checkout-success",
+        "http://localhost:5000/api/payments/checkout-success",
         { sessionId }
       );
 
