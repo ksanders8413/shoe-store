@@ -10,6 +10,7 @@ const WavyImage = ({ src, alt }) => {
         repeat: Infinity,
         repeatType: "loop",
         ease: "easeInOut",
+       
       },
     },
   };
