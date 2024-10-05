@@ -172,21 +172,20 @@ function App() {
   const { getCartItems } = useCartStore();
   const [isAuthChecked, setIsAuthChecked] = useState(false);
 
+  const checkUserAuth = useCallback(async () => {
+    await checkAuth();
+
+    if (user) {
+      await getCartItems();
+    }
+
+    setIsAuthChecked(true);
+  }, [checkAuth, getCartItems, user]); // Add dependencies if necessary
+
   useEffect(() => {
-    const checkUserAuth = async () => {
-      await checkAuth(); // Perform the authentication check
-  
-      // Only fetch cart items if user is authenticated
-      if (user) {
-        getCartItems();
-      }
-  
-      setIsAuthChecked(true); // Set this after auth check
-    };
-  
     checkUserAuth();
-  }, []); // Empty dependency array to avoid re-running this on every render
-  
+  }, [checkUserAuth]); // Now it will only re-run if checkUserAuth changes
+
 
   // Show loading spinner while checking authentication
   if (checkingAuth || !isAuthChecked) return <LoadingSpinner />;
