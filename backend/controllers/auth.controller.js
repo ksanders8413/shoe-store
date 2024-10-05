@@ -31,20 +31,41 @@ const storeRefreshToken = async (userId, refreshToken) => {
   ); // 7days
 };
 
+// const setCookies = (res, accessToken, refreshToken) => {
+//   res.cookie("accessToken", accessToken, {
+//     httpOnly: true, // prevent XSS attacks, cross site scripting attack
+//     secure: process.env.NODE_ENV === "production",
+//     sameSite: "strict", // prevents CSRF attack, cross-site request forgery attack
+//     maxAge: 15 * 60 * 1000, // 15 minutes
+//   });
+//   res.cookie("refreshToken", refreshToken, {
+//     httpOnly: true, // prevent XSS attacks, cross site scripting attack
+//     secure: process.env.NODE_ENV === "production",
+//     sameSite: "strict", // prevents CSRF attack, cross-site request forgery attack
+//     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+//   });
+// };
+
+
+
 const setCookies = (res, accessToken, refreshToken) => {
   res.cookie("accessToken", accessToken, {
-    httpOnly: true, // prevent XSS attacks, cross site scripting attack
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict", // prevents CSRF attack, cross-site request forgery attack
+    httpOnly: true, // Prevents client-side JS access
+    secure: process.env.NODE_ENV === "production", // Secure cookies only in production (HTTPS)
+    sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax", // Strict in production to prevent CSRF
     maxAge: 15 * 60 * 1000, // 15 minutes
   });
   res.cookie("refreshToken", refreshToken, {
-    httpOnly: true, // prevent XSS attacks, cross site scripting attack
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict", // prevents CSRF attack, cross-site request forgery attack
+    httpOnly: true, 
+    secure: process.env.NODE_ENV === "production", 
+    sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax", 
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   });
 };
+
+
+
+
 
 export const signup = async (req, res) => {
   const { email, password, name } = req.body;
