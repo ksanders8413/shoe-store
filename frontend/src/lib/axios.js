@@ -13,10 +13,10 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.MODE === "development" 
-    ? "http://localhost:5000/api" 
-    : "https://api.fuegokickz.com/api",  // Replace with your production backend URL
-  withCredentials: true, // send cookies to the server
+  baseURL: import.meta.env.MODE === "development"
+    ? import.meta.env.VITE_BACKEND_URL_DEV
+    : import.meta.env.VITE_BACKEND_URL_PROD,
+  withCredentials: true, // If you're using cookies for authentication
 });
 
 export default axiosInstance;
