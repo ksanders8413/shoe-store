@@ -1,5 +1,9 @@
 
 
+
+
+
+
 // import React, { useState, useEffect } from "react";
 // import { useParams, useNavigate } from "react-router-dom";
 // import axios from "../lib/axios";
@@ -14,21 +18,22 @@
 // import { loadStripe } from "@stripe/stripe-js";
 
 // const ProductInfoPage = () => {
-//   const { id } = useParams(); // Product ID from URL params
+//   const { id } = useParams(); 
 //   const navigate = useNavigate();
-//   const { addToCart } = useCartStore(); // Cart store for managing cart
-//   const { user } = useUserStore(); // User store for checking if user is logged in
+//   const { addToCart } = useCartStore(); 
+//   const { user } = useUserStore(); 
 //   const [product, setProduct] = useState(null);
 //   const [isLoading, setIsLoading] = useState(true);
-//   const [mainImage, setMainImage] = useState(""); // Main image state
+//   const [mainImage, setMainImage] = useState(""); 
+//   const [selectedThumbnail, setSelectedThumbnail] = useState(0); // Track selected thumbnail
 //   const [zoomPosition, setZoomPosition] = useState({ x: 10, y: 10 });
 //   const [isZooming, setIsZooming] = useState(false);
-//   const [selectedSize, setSelectedSize] = useState(null); // Track selected size
+//   const [selectedSize, setSelectedSize] = useState(null); 
 //   const [showAllSizes, setShowAllSizes] = useState(false);
 //   const [showPopup, setShowPopup] = useState(false);
 //   const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
-//   const THUMBNAILS_PER_VIEW = 3; // Number of thumbnails to show at once
+//   const THUMBNAILS_PER_VIEW = 3; 
 
 //   useEffect(() => {
 //     const fetchProduct = async () => {
@@ -36,7 +41,7 @@
 //         const response = await axios.get(`/products/product/${id}`);
 //         if (response.status === 200) {
 //           setProduct(response.data);
-//           setMainImage(response.data.images[0]); // Set the first image as default
+//           setMainImage(response.data.images[0]); 
 //         } else {
 //           console.error("Product not found");
 //         }
@@ -61,20 +66,19 @@
 //       return;
 //     }
 
-//     // Add product to cart
 //     addToCart(product, selectedSize, 1);
 //     toast.success(`Product added to cart - Size: ${selectedSize}`);
 //     setShowPopup(true);
 
-//     // Hide the popup after a few seconds
 //     setTimeout(() => {
 //       setShowPopup(false);
 //     }, 30000);
 //   };
 
 //   // Handle thumbnail click
-//   const handleThumbnailClick = (image) => {
+//   const handleThumbnailClick = (image, index) => {
 //     setMainImage(image);
+//     setSelectedThumbnail(index); // Track the selected thumbnail index
 //   };
 
 //   // Handle magnifier visibility and position
@@ -88,7 +92,6 @@
 //   const handleMouseEnter = () => setIsZooming(true);
 //   const handleMouseLeave = () => setIsZooming(false);
 
-//   // Handle view bag or checkout actions
 //   const handleViewBag = () => {
 //     navigate("/cart");
 //     setShowPopup(false);
@@ -165,8 +168,12 @@
 //                       key={index}
 //                       src={image}
 //                       alt={`${product.name} image ${index + 1}`}
-//                       className="w-20 h-20 object-contain mb-4 border-2 border-gray-300 bg-slate-200 rounded-md transition-transform hover:scale-105 cursor-pointer "
-//                       onClick={() => handleThumbnailClick(image)}
+//                       className={`w-20 h-20 object-contain mb-4 border-2 rounded-md transition-transform hover:scale-105 cursor-pointer ${
+//                         selectedThumbnail === index
+//                           ? "border-blue-500 bg-blue-100 text-blue-800"
+//                           : "border-gray-300 bg-slate-200"
+//                       }`}
+//                       onClick={() => handleThumbnailClick(image, index)} // Pass index to track selection
 //                     />
 //                   ))}
 //               </div>
@@ -262,8 +269,6 @@
 
 
 
-
-
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "../lib/axios";
@@ -276,6 +281,9 @@ import { useCartStore } from "../stores/useCartStore";
 import { useUserStore } from "../stores/useUserStore"; 
 import Popup from "../Components/Popup";
 import { loadStripe } from "@stripe/stripe-js";
+
+// Move Stripe initialization outside the component
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
 const ProductInfoPage = () => {
   const { id } = useParams(); 
@@ -291,7 +299,6 @@ const ProductInfoPage = () => {
   const [selectedSize, setSelectedSize] = useState(null); 
   const [showAllSizes, setShowAllSizes] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
-  const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
   const THUMBNAILS_PER_VIEW = 3; 
 
@@ -359,6 +366,15 @@ const ProductInfoPage = () => {
   };
 
   const handleCheckout = async () => {
+    // Get the Stripe instance from stripePromise
+    const stripe = await stripePromise;
+
+    if (!stripe) {
+      console.error("Stripe not initialized");
+      return;
+    }
+
+    // Proceed with Stripe checkout or any other operations
     navigate("/shipping");
     setShowPopup(false);
     window.scrollTo(0, 0);
@@ -523,3 +539,7 @@ const ProductInfoPage = () => {
 };
 
 export default ProductInfoPage;
+
+
+
+
