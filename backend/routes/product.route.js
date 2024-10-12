@@ -15,8 +15,8 @@ import { cloudinaryUpload } from "../lib/cloudinary.js"; // Import the local upl
 const router = express.Router();
 
 // Define your routes
-router.get("/", getAllProducts);
-// router.get("/", protectRoute, adminRoute, getAllProducts);
+// router.get("/", getAllProducts);
+router.get("/", protectRoute, adminRoute, getAllProducts);
 router.get("/featured", getFeaturedProducts);
 router.get("/category/:category", getProductsByCategory);
 router.get("/recommendations", getRecomendedProducts);

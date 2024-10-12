@@ -13,7 +13,7 @@ const ShopAllPage = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await axiosInstance.get('/api/products');
+      const response = await axiosInstance.get('/products');
       console.log(response.data); // Log to inspect the response structure
   
       // Check if 'products' is an array within the response data
