@@ -42,7 +42,7 @@
 
 
 import { create } from "zustand";
-import axios from "../lib/axios";  // Make sure axios instance handles baseURL correctly
+import axiosInstance from "../lib/axios";  // Make sure axios instance handles baseURL correctly
 
 export const useAuthStore = create((set) => ({
   user: null,
@@ -57,7 +57,7 @@ export const useAuthStore = create((set) => ({
 
     try {
       // Use the axios instance with baseURL already set
-      const response = await axios.post("/auth/verify-email", { code });
+      const response = await axiosInstance.post("/auth/verify-email", { code });
 
       set({
         user: response.data.user,

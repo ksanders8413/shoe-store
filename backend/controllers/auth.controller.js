@@ -156,6 +156,55 @@ export const signup = async (req, res) => {
 // };
 
 
+
+
+
+
+
+
+    
+// export const login = async (req, res) => {
+//   try {
+//     const { email, password } = req.body;
+
+//     const user = await User.findOne({ email }).select('+password +role'); // Ensure password and role are selected
+
+//     if (user && (await user.comparePassword(password))) {
+//       const { accessToken, refreshToken } = generateTokens(user._id);
+//       await storeRefreshToken(user._id, refreshToken);
+//       setCookies(res, accessToken, refreshToken);
+
+//       // Update last login date
+//       user.lastLogin = new Date();
+//       await user.save();
+
+//       res.status(200).json({
+//         success: true,
+//         message: "Logged in successfully",
+//         user: {
+//           ...user._doc,
+//           password: undefined, // Remove password field from response
+//         },
+//       });
+//     } else {
+//       res.status(400).json({ message: "Invalid email or password" });
+//     }
+//   } catch (error) {
+//     console.log("Error in login controller", error.message);
+//     res.status(500).json({ message: error.message });
+//   }
+// };
+
+
+
+
+
+
+
+
+  //modifying to take async storage
+
+
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -165,15 +214,24 @@ export const login = async (req, res) => {
     if (user && (await user.comparePassword(password))) {
       const { accessToken, refreshToken } = generateTokens(user._id);
       await storeRefreshToken(user._id, refreshToken);
-      setCookies(res, accessToken, refreshToken);
 
       // Update last login date
       user.lastLogin = new Date();
       await user.save();
 
+      // Check if the request is coming from a mobile app or web app
+      const isMobile = req.headers['user-agent'] && /mobile/i.test(req.headers['user-agent']);
+
+      if (!isMobile) {
+        // If it's not mobile, set cookies for the web app
+        setCookies(res, accessToken, refreshToken);
+      }
+
       res.status(200).json({
         success: true,
         message: "Logged in successfully",
+        accessToken, // Return the access token
+        refreshToken, // Return the refresh token
         user: {
           ...user._doc,
           password: undefined, // Remove password field from response

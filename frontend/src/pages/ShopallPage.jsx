@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../lib/axios';
 import ProductCard from '../Components/ProductCard'; // Adjust the import based on your structure
 import LoadingSpinner from '../Components/LoadingSpinner';
 import { StarryBackground } from '../../motionComponents/ShopByCategory';
@@ -13,7 +13,7 @@ const ShopAllPage = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get('/api/products');
+      const response = await axiosInstance.get('/api/products');
       console.log(response.data); // Log to inspect the response structure
   
       // Check if 'products' is an array within the response data

@@ -47,7 +47,7 @@
 
 
 import React, { useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../lib/axios';
 
 const ImageUpload = ({ onUpload }) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -65,7 +65,7 @@ const ImageUpload = ({ onUpload }) => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/products/upload-images', formData, {
+      const response = await axiosInstance.post('http://localhost:5000/api/products/upload-images', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       console.log('Upload successful:', response.data);

@@ -271,7 +271,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "../lib/axios";
+import axiosInstance from "../lib/axios";
 import toast from "react-hot-toast";
 import { ChevronDown } from "lucide-react";
 import { motion as Motion } from "framer-motion";
@@ -305,7 +305,7 @@ const ProductInfoPage = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`/products/product/${id}`);
+        const response = await axiosInstance.get(`/products/product/${id}`);
         if (response.status === 200) {
           setProduct(response.data);
           setMainImage(response.data.images[0]); 

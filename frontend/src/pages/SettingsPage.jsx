@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useSettingsStore } from "../stores/useSettingsStore";
 import { useUserStore } from "../stores/useUserStore";
 import { motion } from "framer-motion";
-import axios from "axios";
+import axiosInstance from "../lib/axios";
 import toast from "react-hot-toast";
 
 const SettingsPage = () => {
@@ -28,7 +28,7 @@ const SettingsPage = () => {
 
   const handleSaveAccount = async () => {
     try {
-      const response = await axios.put("http://localhost:5000/api/settings/account", localAccountSettings); // Adjust the URL as per your backend API
+      const response = await axiosInstance.put("http://localhost:5000/api/settings/account", localAccountSettings); // Adjust the URL as per your backend API
       updateAccountSettings(response.data);
       toast.success("Account settings updated successfully!");
     } catch (error) {
@@ -39,7 +39,7 @@ const SettingsPage = () => {
 
   const handleSaveShipping = async () => {
     try {
-      const response = await axios.put("/api/settings/shipping", localShippingSettings); // Adjust the URL
+      const response = await axiosInstance.put("/api/settings/shipping", localShippingSettings); // Adjust the URL
       updateShippingSettings(response.data);
       toast.success("Shipping settings updated successfully!");
     } catch (error) {
@@ -50,7 +50,7 @@ const SettingsPage = () => {
 
   const handleSaveNotifications = async () => {
     try {
-      const response = await axios.put("/api/settings/notifications", localNotificationSettings); // Adjust the URL
+      const response = await axiosInstance.put("/api/settings/notifications", localNotificationSettings); // Adjust the URL
       updateNotificationSettings(response.data);
       toast.success("Notification settings updated successfully!");
     } catch (error) {

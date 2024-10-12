@@ -24,13 +24,6 @@ const PORT = process.env.PORT || 5000;
 
 const __dirname = path.resolve();
 
-// const corsOptions = {
-//   origin: "http://localhost:5173", // Your frontend URL
-
-//   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-//   allowedHeaders: ["Content-Type"],
-//   credentials: true,
-// };
 
 const allowedOrigins = [
   "http://localhost:5173", // Local development frontend
@@ -79,7 +72,6 @@ app.use("/api/user", userRoutes);
 app.use("/api/settings", settingsRoutes);
 app.use("/api/product-cost", productCostRoutes);
 
-// Image upload route
 // Image upload route with Cloudinary URLs
 app.post(
   "/api/products/upload-images",

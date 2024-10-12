@@ -570,7 +570,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
-import axios from "../lib/axios";
+import axiosInstance from "../lib/axios";
 import { useCartStore } from "../stores/useCartStore";
 import { StarryBackground } from "../../motionComponents/ShopByCategory";
 
@@ -614,7 +614,7 @@ const ShippingForm = () => {
     try {
       const stripe = await stripePromise;
 
-      const { data: session } = await axios.post(
+      const { data: session } = await axiosInstance.post(
         "/payments/create-checkout-session",
         {
           products: cart.map((item) => ({

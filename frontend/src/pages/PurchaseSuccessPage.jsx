@@ -179,7 +179,7 @@
 
 
 import { useEffect, useState, useRef } from "react";
-import axios from "../lib/axios"; // Use the axios instance
+import axiosInstance from "../lib/axios"; // Use the axios instance
 import Confetti from "react-confetti";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import { CheckCircle, ArrowRight, HandHeart } from "lucide-react";
@@ -200,7 +200,7 @@ const PurchaseSuccessPage = () => {
       orderProcessedRef.current = true;
 
       // Use the axios instance with the proper base URL
-      const checkoutResponse = await axios.post("/payments/checkout-success", {
+      const checkoutResponse = await axiosInstance.post("/payments/checkout-success", {
         sessionId,
       });
 

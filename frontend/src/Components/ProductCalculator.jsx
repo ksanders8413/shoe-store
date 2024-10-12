@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaPlus, FaTrash, FaSave, FaEdit, FaCalculator } from "react-icons/fa";
-import axios from 'axios'; // Make sure to import axios for the API call
+import axiosInstance from "../lib/axios";
 
 const ProductCalculator = () => {
   // State for a single product's cost details
@@ -61,7 +61,7 @@ const saveProduct = async () => {
   };
 
   try {
-    const response = await axios.post('http://localhost:5000/api/product-cost/save-product', newProduct);
+    const response = await axiosInstance.post('http://localhost:5000/api/product-cost/save-product', newProduct);
     console.log('Product saved:', response.data);
 
     const updatedProducts = [...savedProducts, newProduct];
